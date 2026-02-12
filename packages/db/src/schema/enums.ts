@@ -4,6 +4,7 @@ import {
   ApiMethod,
   ApiType,
   FieldType,
+  ViewType,
 } from "@folio/contract/enums";
 import { enumToPgEnum } from "../utils/enum-to-pg-enum";
 
@@ -17,3 +18,5 @@ export const accessLevelEnum = pgEnum(
   "access_level",
   enumToPgEnum(AccessLevel),
 );
+
+export const viewTypeEnum = pgEnum("view_type", enumToPgEnum(ViewType));

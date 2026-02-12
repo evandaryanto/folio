@@ -17,6 +17,9 @@ export * from "./records";
 export * from "./apis";
 export * from "./compositions";
 
+// Views
+export * from "./views";
+
 // Access & Security
 export * from "./api-keys";
 export * from "./access-rules";

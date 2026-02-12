@@ -14,7 +14,8 @@
     "./api": "./src/api/index.ts",
     "./composition": "./src/composition/index.ts",
     "./api-key": "./src/api-key/index.ts",
-    "./access-rule": "./src/access-rule/index.ts"
+    "./access-rule": "./src/access-rule/index.ts",
+    "./view": "./src/view/index.ts"
   },
   "scripts": {
     "lint": "eslint src/",

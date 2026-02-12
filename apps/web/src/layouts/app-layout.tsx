@@ -12,6 +12,7 @@ import { getNavItems, getBreadcrumbs, ROUTES } from "@/lib/routes";
 import { useApp } from "@/providers";
 import { useCollections } from "@/hooks/use-collections";
 import { useCompositions } from "@/hooks/use-compositions";
+import { useViews } from "@/hooks/use-views";
 
 export default function AppLayout() {
   const location = useLocation();
@@ -19,6 +20,7 @@ export default function AppLayout() {
   const { user, logout } = useApp();
   const { data: collections } = useCollections();
   const { data: compositions } = useCompositions();
+  const { data: views } = useViews();
 
   // Build nav sections with real counts
   const navSections = useMemo(() => {
@@ -36,10 +38,13 @@ export default function AppLayout() {
         if (item.key === ROUTES.COMPOSITIONS && compositions) {
           return { ...item, count: compositions.length };
         }
+        if (item.key === ROUTES.VIEWS && views) {
+          return { ...item, count: views.length };
+        }
         return item;
       }),
     }));
-  }, [collections, compositions]);
+  }, [collections, compositions, views]);
 
   const breadcrumbs = getBreadcrumbs(
     location.pathname,
