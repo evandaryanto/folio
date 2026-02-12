@@ -10,6 +10,7 @@ import { RecordUsecase } from "./record";
 import { ApiUsecase } from "./api";
 import { CompositionUsecase } from "./composition";
 import { ViewUsecase } from "./view";
+import { PageUsecase } from "./page";
 import { ApiKeyUsecase } from "./api-key";
 import { AccessRuleUsecase } from "./access-rule";
 
@@ -64,6 +65,11 @@ export function createUsecases({
     }),
     view: new ViewUsecase({
       viewRepository: repositories.view,
+      logger,
+    }),
+    page: new PageUsecase({
+      pageRepository: repositories.page,
+      workspaceRepository: repositories.workspace,
       logger,
     }),
     apiKey: new ApiKeyUsecase({

@@ -115,7 +115,7 @@ export function createWorkspaceRoutes({
 
   // Update Workspace
   const updateWorkspaceRoute = createRoute({
-    method: "put",
+    method: "patch",
     path: "/{workspaceId}",
     tags: ["Workspaces"],
     request: {

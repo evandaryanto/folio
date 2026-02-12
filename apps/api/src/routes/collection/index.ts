@@ -233,7 +233,7 @@ export function createCollectionRoutes({
 
   // Update Collection
   const updateCollectionRoute = createRoute({
-    method: "put",
+    method: "patch",
     path: "/{collectionId}",
     tags: ["Collections"],
     request: {

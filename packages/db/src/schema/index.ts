@@ -20,6 +20,9 @@ export * from "./compositions";
 // Views
 export * from "./views";
 
+// Pages
+export * from "./pages";
+
 // Access & Security
 export * from "./api-keys";
 export * from "./access-rules";

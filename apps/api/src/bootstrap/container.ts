@@ -28,6 +28,8 @@ import {
   createCompositionRoutes,
   createCompositionExecuteRoutes,
   createViewRoutes,
+  createPageRoutes,
+  createPagePublicRoutes,
   createApiKeyRoutes,
   createAccessRuleRoutes,
 } from "@/routes";
@@ -137,6 +139,12 @@ export class Container {
     });
     this.hono.route("/api/v1/c", compositionExecuteRoutes);
 
+    // Public page routes (BEFORE auth middleware)
+    const pagePublicRoutes = createPagePublicRoutes({
+      pageService: this.services.page,
+    });
+    this.hono.route("/api/v1/p", pagePublicRoutes);
+
     // Protected routes
     const authMiddleware = createAuthMiddleware({
       sessionRepository: this.repositories.session,
@@ -193,10 +201,13 @@ export class Container {
     const viewRoutes = createViewRoutes({
       viewService: this.services.view,
     });
-    this.hono.route(
-      "/api/v1/workspaces/:workspaceId/views",
-      viewRoutes,
-    );
+    this.hono.route("/api/v1/workspaces/:workspaceId/views", viewRoutes);
+
+    // Page routes (nested under workspaces)
+    const pageRoutes = createPageRoutes({
+      pageService: this.services.page,
+    });
+    this.hono.route("/api/v1/workspaces/:workspaceId/pages", pageRoutes);
 
     // API Key routes (nested under workspaces)
     const apiKeyRoutes = createApiKeyRoutes({

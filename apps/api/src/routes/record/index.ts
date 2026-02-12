@@ -187,7 +187,7 @@ export function createRecordRoutes({ recordService }: RecordRoutesDeps) {
 
   // Update Record
   const updateRecordRoute = createRoute({
-    method: "put",
+    method: "patch",
     path: "/{recordId}",
     tags: ["Records"],
     request: {

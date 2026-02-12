@@ -175,7 +175,7 @@ export function createAccessRuleRoutes({
 
   // Update Access Rule
   const updateAccessRuleRoute = createRoute({
-    method: "put",
+    method: "patch",
     path: "/{accessRuleId}",
     tags: ["Access Rules"],
     request: {

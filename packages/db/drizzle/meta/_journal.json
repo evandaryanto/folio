@@ -15,6 +15,13 @@
       "when": 1770870701347,
       "tag": "0001_military_toxin",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1770872835396,
+      "tag": "0002_zippy_tomas",
+      "breakpoints": true
     }
   ]
 }

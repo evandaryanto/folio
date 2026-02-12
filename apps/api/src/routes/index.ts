@@ -7,5 +7,7 @@ export { createApiRoutes } from "./api";
 export { createCompositionRoutes } from "./composition";
 export { createCompositionExecuteRoutes } from "./composition-execute";
 export { createViewRoutes } from "./view";
+export { createPageRoutes } from "./page";
+export { createPagePublicRoutes } from "./page-public";
 export { createApiKeyRoutes } from "./api-key";
 export { createAccessRuleRoutes } from "./access-rule";

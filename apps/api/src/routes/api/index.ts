@@ -173,7 +173,7 @@ export function createApiRoutes({ apiService }: ApiRoutesDeps) {
 
   // Update API
   const updateApiRoute = createRoute({
-    method: "put",
+    method: "patch",
     path: "/{apiId}",
     tags: ["APIs"],
     request: {

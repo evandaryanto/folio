@@ -171,7 +171,7 @@ export function createApiKeyRoutes({ apiKeyService }: ApiKeyRoutesDeps) {
 
   // Update API Key
   const updateApiKeyRoute = createRoute({
-    method: "put",
+    method: "patch",
     path: "/{apiKeyId}",
     tags: ["API Keys"],
     request: {

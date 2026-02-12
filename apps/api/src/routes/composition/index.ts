@@ -281,7 +281,7 @@ export function createCompositionRoutes({
 
   // Update Composition
   const updateCompositionRoute = createRoute({
-    method: "put",
+    method: "patch",
     path: "/{compositionId}",
     tags: ["Compositions"],
     request: {

@@ -1,39 +1,39 @@
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
-import type { ViewService } from "@/service/view";
+import type { PageService } from "@/service/page";
 import type { AppEnv } from "@/types/hono";
 import { handleServiceError } from "@/utils/helpers/service-result";
 import { ulidSchema } from "@folio/contract/common";
 import {
-  createViewRequestSchema,
-  updateViewRequestSchema,
-  getViewResponseSchema,
-  listViewsResponseSchema,
-  createViewResponseSchema,
-  updateViewResponseSchema,
-  deleteViewResponseSchema,
-} from "@folio/contract/view";
+  createPageRequestSchema,
+  updatePageRequestSchema,
+  getPageResponseSchema,
+  listPagesResponseSchema,
+  createPageResponseSchema,
+  updatePageResponseSchema,
+  deletePageResponseSchema,
+} from "@folio/contract/page";
 
-interface ViewRoutesDeps {
-  viewService: ViewService;
+interface PageRoutesDeps {
+  pageService: PageService;
 }
 
 const workspaceIdParamSchema = z.object({
   workspaceId: ulidSchema,
 });
 
-const viewParamsSchema = z.object({
+const pageParamsSchema = z.object({
   workspaceId: ulidSchema,
-  viewId: ulidSchema,
+  pageId: ulidSchema,
 });
 
-export function createViewRoutes({ viewService }: ViewRoutesDeps) {
+export function createPageRoutes({ pageService }: PageRoutesDeps) {
   const app = new OpenAPIHono<AppEnv>();
 
-  // List Views
-  const listViewsRoute = createRoute({
+  // List Pages
+  const listPagesRoute = createRoute({
     method: "get",
     path: "/",
-    tags: ["Views"],
+    tags: ["Pages"],
     request: {
       params: workspaceIdParamSchema,
     },
@@ -41,10 +41,10 @@ export function createViewRoutes({ viewService }: ViewRoutesDeps) {
       200: {
         content: {
           "application/json": {
-            schema: listViewsResponseSchema,
+            schema: listPagesResponseSchema,
           },
         },
-        description: "List of views",
+        description: "List of pages",
       },
       401: {
         description: "Unauthorized",
@@ -52,7 +52,7 @@ export function createViewRoutes({ viewService }: ViewRoutesDeps) {
     },
   });
 
-  app.openapi(listViewsRoute, async (c) => {
+  app.openapi(listPagesRoute, async (c) => {
     const userId = c.get("userId");
 
     if (!userId) {
@@ -60,7 +60,7 @@ export function createViewRoutes({ viewService }: ViewRoutesDeps) {
     }
 
     const { workspaceId } = c.req.valid("param");
-    const result = await viewService.listViews(workspaceId);
+    const result = await pageService.listPages(workspaceId);
 
     if (!result.ok) {
       return handleServiceError(c, result) as never;
@@ -69,41 +69,41 @@ export function createViewRoutes({ viewService }: ViewRoutesDeps) {
     return c.json(result.data, 200);
   });
 
-  // Get View
-  const getViewRoute = createRoute({
+  // Get Page
+  const getPageRoute = createRoute({
     method: "get",
-    path: "/{viewId}",
-    tags: ["Views"],
+    path: "/{pageId}",
+    tags: ["Pages"],
     request: {
-      params: viewParamsSchema,
+      params: pageParamsSchema,
     },
     responses: {
       200: {
         content: {
           "application/json": {
-            schema: getViewResponseSchema,
+            schema: getPageResponseSchema,
           },
         },
-        description: "View details",
+        description: "Page details",
       },
       401: {
         description: "Unauthorized",
       },
       404: {
-        description: "View not found",
+        description: "Page not found",
       },
     },
   });
 
-  app.openapi(getViewRoute, async (c) => {
+  app.openapi(getPageRoute, async (c) => {
     const userId = c.get("userId");
 
     if (!userId) {
       return c.json({ error: "Unauthorized" }, 401) as never;
     }
 
-    const { workspaceId, viewId } = c.req.valid("param");
-    const result = await viewService.getView(workspaceId, viewId);
+    const { workspaceId, pageId } = c.req.valid("param");
+    const result = await pageService.getPage(workspaceId, pageId);
 
     if (!result.ok) {
       return handleServiceError(c, result) as never;
@@ -112,11 +112,11 @@ export function createViewRoutes({ viewService }: ViewRoutesDeps) {
     return c.json(result.data, 200);
   });
 
-  // Get View by Slug
-  const getViewBySlugRoute = createRoute({
+  // Get Page by Slug
+  const getPageBySlugRoute = createRoute({
     method: "get",
     path: "/slug/{slug}",
-    tags: ["Views"],
+    tags: ["Pages"],
     request: {
       params: z.object({
         workspaceId: ulidSchema,
@@ -127,21 +127,21 @@ export function createViewRoutes({ viewService }: ViewRoutesDeps) {
       200: {
         content: {
           "application/json": {
-            schema: getViewResponseSchema,
+            schema: getPageResponseSchema,
           },
         },
-        description: "View details",
+        description: "Page details",
       },
       401: {
         description: "Unauthorized",
       },
       404: {
-        description: "View not found",
+        description: "Page not found",
       },
     },
   });
 
-  app.openapi(getViewBySlugRoute, async (c) => {
+  app.openapi(getPageBySlugRoute, async (c) => {
     const userId = c.get("userId");
 
     if (!userId) {
@@ -149,7 +149,7 @@ export function createViewRoutes({ viewService }: ViewRoutesDeps) {
     }
 
     const { workspaceId, slug } = c.req.valid("param");
-    const result = await viewService.getViewBySlug(workspaceId, slug);
+    const result = await pageService.getPageBySlug(workspaceId, slug);
 
     if (!result.ok) {
       return handleServiceError(c, result) as never;
@@ -158,17 +158,17 @@ export function createViewRoutes({ viewService }: ViewRoutesDeps) {
     return c.json(result.data, 200);
   });
 
-  // Create View
-  const createViewRoute = createRoute({
+  // Create Page
+  const createPageRoute = createRoute({
     method: "post",
     path: "/",
-    tags: ["Views"],
+    tags: ["Pages"],
     request: {
       params: workspaceIdParamSchema,
       body: {
         content: {
           "application/json": {
-            schema: createViewRequestSchema,
+            schema: createPageRequestSchema,
           },
         },
       },
@@ -177,21 +177,21 @@ export function createViewRoutes({ viewService }: ViewRoutesDeps) {
       201: {
         content: {
           "application/json": {
-            schema: createViewResponseSchema,
+            schema: createPageResponseSchema,
           },
         },
-        description: "View created",
+        description: "Page created",
       },
       401: {
         description: "Unauthorized",
       },
       409: {
-        description: "View with this slug already exists",
+        description: "Page with this slug already exists",
       },
     },
   });
 
-  app.openapi(createViewRoute, async (c) => {
+  app.openapi(createPageRoute, async (c) => {
     const userId = c.get("userId");
 
     if (!userId) {
@@ -200,7 +200,7 @@ export function createViewRoutes({ viewService }: ViewRoutesDeps) {
 
     const { workspaceId } = c.req.valid("param");
     const body = c.req.valid("json");
-    const result = await viewService.createView(workspaceId, body, userId);
+    const result = await pageService.createPage(workspaceId, body, userId);
 
     if (!result.ok) {
       return handleServiceError(c, result) as never;
@@ -209,17 +209,17 @@ export function createViewRoutes({ viewService }: ViewRoutesDeps) {
     return c.json(result.data, 201);
   });
 
-  // Update View
-  const updateViewRoute = createRoute({
+  // Update Page
+  const updatePageRoute = createRoute({
     method: "patch",
-    path: "/{viewId}",
-    tags: ["Views"],
+    path: "/{pageId}",
+    tags: ["Pages"],
     request: {
-      params: viewParamsSchema,
+      params: pageParamsSchema,
       body: {
         content: {
           "application/json": {
-            schema: updateViewRequestSchema,
+            schema: updatePageRequestSchema,
           },
         },
       },
@@ -228,30 +228,30 @@ export function createViewRoutes({ viewService }: ViewRoutesDeps) {
       200: {
         content: {
           "application/json": {
-            schema: updateViewResponseSchema,
+            schema: updatePageResponseSchema,
           },
         },
-        description: "View updated",
+        description: "Page updated",
       },
       401: {
         description: "Unauthorized",
       },
       404: {
-        description: "View not found",
+        description: "Page not found",
       },
     },
   });
 
-  app.openapi(updateViewRoute, async (c) => {
+  app.openapi(updatePageRoute, async (c) => {
     const userId = c.get("userId");
 
     if (!userId) {
       return c.json({ error: "Unauthorized" }, 401) as never;
     }
 
-    const { workspaceId, viewId } = c.req.valid("param");
+    const { workspaceId, pageId } = c.req.valid("param");
     const body = c.req.valid("json");
-    const result = await viewService.updateView(workspaceId, viewId, body);
+    const result = await pageService.updatePage(workspaceId, pageId, body);
 
     if (!result.ok) {
       return handleServiceError(c, result) as never;
@@ -260,41 +260,41 @@ export function createViewRoutes({ viewService }: ViewRoutesDeps) {
     return c.json(result.data, 200);
   });
 
-  // Delete View
-  const deleteViewRoute = createRoute({
+  // Delete Page
+  const deletePageRoute = createRoute({
     method: "delete",
-    path: "/{viewId}",
-    tags: ["Views"],
+    path: "/{pageId}",
+    tags: ["Pages"],
     request: {
-      params: viewParamsSchema,
+      params: pageParamsSchema,
     },
     responses: {
       200: {
         content: {
           "application/json": {
-            schema: deleteViewResponseSchema,
+            schema: deletePageResponseSchema,
           },
         },
-        description: "View deleted",
+        description: "Page deleted",
       },
       401: {
         description: "Unauthorized",
       },
       404: {
-        description: "View not found",
+        description: "Page not found",
       },
     },
   });
 
-  app.openapi(deleteViewRoute, async (c) => {
+  app.openapi(deletePageRoute, async (c) => {
     const userId = c.get("userId");
 
     if (!userId) {
       return c.json({ error: "Unauthorized" }, 401) as never;
     }
 
-    const { workspaceId, viewId } = c.req.valid("param");
-    const result = await viewService.deleteView(workspaceId, viewId);
+    const { workspaceId, pageId } = c.req.valid("param");
+    const result = await pageService.deletePage(workspaceId, pageId);
 
     if (!result.ok) {
       return handleServiceError(c, result) as never;
