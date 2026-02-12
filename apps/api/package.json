@@ -1,0 +1,53 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "bun run --watch src/dev.ts",
+    "build": "bun build src/index.ts --outdir dist --target node",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "script:auth": "bun run src/scripts/test-auth.ts",
+    "script:composition": "bun run src/scripts/test-composition.ts",
+    "script:field": "bun run src/scripts/test-field.ts",
+    "script:api-key": "bun run src/scripts/test-api-key.ts",
+    "script:public-api": "bun run src/scripts/test-public-api.ts",
+    "script:accounting": "bun run src/scripts/test-accounting.ts",
+    "script:record-validation": "bun run src/scripts/test-record-validation.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.18.0",
+  "dependencies": {
+    "@folio/contract": "workspace:*",
+    "@folio/db": "workspace:*",
+    "@folio/shared": "workspace:*",
+    "@hono/node-server": "^1.13.7",
+    "@hono/swagger-ui": "^0.4.1",
+    "@hono/zod-openapi": "^1.2.1",
+    "dotenv": "^17.2.3",
+    "drizzle-orm": "^0.38.4",
+    "hono": "^4.11.7",
+    "pg": "^8.18.0",
+    "redis": "^5.10.0",
+    "superjson": "^2.2.6",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@folio/eslint-config": "workspace:*",
+    "@types/bun": "^1.3.8",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.2.0",
+    "@types/pg": "^8.16.0",
+    "bun-types": "^1.3.8",
+    "eslint": "^9.39.2",
+    "jest": "^30.2.0",
+    "prettier": "^3.8.1",
+    "ts-jest": "^29.4.6",
+    "typescript": "^5.9.3"
+  }
+}
