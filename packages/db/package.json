@@ -1,0 +1,33 @@
+{
+  "name": "@folio/db",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema": "./src/schema/index.ts"
+  },
+  "scripts": {
+    "generate": "drizzle-kit generate",
+    "migrate": "drizzle-kit migrate",
+    "push": "drizzle-kit push",
+    "studio": "drizzle-kit studio",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix"
+  },
+  "dependencies": {
+    "@folio/contract": "workspace:*",
+    "drizzle-orm": "^0.38.4",
+    "pg": "^8.18.0"
+  },
+  "devDependencies": {
+    "@folio/eslint-config": "workspace:*",
+    "@types/node": "^25.2.0",
+    "@types/pg": "^8.16.0",
+    "dotenv": "^17.2.3",
+    "drizzle-kit": "^0.30.6",
+    "eslint": "^9.39.2",
+    "prettier": "^3.8.1",
+    "typescript": "^5.9.3",
+    "ulid": "^3.0.2"
+  }
+}
