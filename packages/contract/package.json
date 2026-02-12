@@ -1,0 +1,37 @@
+{
+  "name": "@folio/contract",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./enums": "./src/enums/index.ts",
+    "./common": "./src/common/index.ts",
+    "./auth": "./src/auth/index.ts",
+    "./workspace": "./src/workspace/index.ts",
+    "./collection": "./src/collection/index.ts",
+    "./field": "./src/field/index.ts",
+    "./record": "./src/record/index.ts",
+    "./api": "./src/api/index.ts",
+    "./composition": "./src/composition/index.ts",
+    "./api-key": "./src/api-key/index.ts",
+    "./access-rule": "./src/access-rule/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.18.0",
+  "dependencies": {
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@folio/eslint-config": "workspace:*",
+    "@types/node": "^25.2.0",
+    "eslint": "^9.39.2",
+    "prettier": "^3.8.1",
+    "typescript": "^5.9.3"
+  }
+}
