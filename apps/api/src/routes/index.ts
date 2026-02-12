@@ -6,5 +6,6 @@ export { createRecordRoutes } from "./record";
 export { createApiRoutes } from "./api";
 export { createCompositionRoutes } from "./composition";
 export { createCompositionExecuteRoutes } from "./composition-execute";
+export { createViewRoutes } from "./view";
 export { createApiKeyRoutes } from "./api-key";
 export { createAccessRuleRoutes } from "./access-rule";

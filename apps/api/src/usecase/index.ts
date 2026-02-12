@@ -9,6 +9,7 @@ import { FieldUsecase } from "./field";
 import { RecordUsecase } from "./record";
 import { ApiUsecase } from "./api";
 import { CompositionUsecase } from "./composition";
+import { ViewUsecase } from "./view";
 import { ApiKeyUsecase } from "./api-key";
 import { AccessRuleUsecase } from "./access-rule";
 
@@ -59,6 +60,10 @@ export function createUsecases({
       collectionRepository: repositories.collection,
       workspaceRepository: repositories.workspace,
       recordRepository: repositories.record,
+      logger,
+    }),
+    view: new ViewUsecase({
+      viewRepository: repositories.view,
       logger,
     }),
     apiKey: new ApiKeyUsecase({

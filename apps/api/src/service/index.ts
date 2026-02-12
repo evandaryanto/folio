@@ -7,6 +7,7 @@ import { FieldService } from "./field";
 import { RecordService } from "./record";
 import { ApiService } from "./api";
 import { CompositionService } from "./composition";
+import { ViewService } from "./view";
 import { ApiKeyService } from "./api-key";
 import { AccessRuleService } from "./access-rule";
 
@@ -27,6 +28,7 @@ export function createServices({ usecases }: CreateServicesDeps) {
     composition: new CompositionService({
       compositionUsecase: usecases.composition,
     }),
+    view: new ViewService({ viewUsecase: usecases.view }),
     apiKey: new ApiKeyService({ apiKeyUsecase: usecases.apiKey }),
     accessRule: new AccessRuleService({
       accessRuleUsecase: usecases.accessRule,

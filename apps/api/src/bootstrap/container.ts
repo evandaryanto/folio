@@ -27,6 +27,7 @@ import {
   createApiRoutes,
   createCompositionRoutes,
   createCompositionExecuteRoutes,
+  createViewRoutes,
   createApiKeyRoutes,
   createAccessRuleRoutes,
 } from "@/routes";
@@ -186,6 +187,15 @@ export class Container {
     this.hono.route(
       "/api/v1/workspaces/:workspaceId/compositions",
       compositionRoutes,
+    );
+
+    // View routes (nested under workspaces)
+    const viewRoutes = createViewRoutes({
+      viewService: this.services.view,
+    });
+    this.hono.route(
+      "/api/v1/workspaces/:workspaceId/views",
+      viewRoutes,
     );
 
     // API Key routes (nested under workspaces)

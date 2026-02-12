@@ -18,6 +18,9 @@ import { RecordRepository } from "./record";
 import { ApiRepository } from "./api";
 import { CompositionRepository } from "./composition";
 
+// Views
+import { ViewRepository } from "./view";
+
 // Access & Security
 import { ApiKeyRepository } from "./api-key";
 import { AccessRuleRepository } from "./access-rule";
@@ -48,6 +51,8 @@ export function createRepositories({
     // APIs & Compositions
     api: new ApiRepository({ db, logger }),
     composition: new CompositionRepository({ db, logger }),
+    // Views
+    view: new ViewRepository({ db, logger }),
     // Access & Security
     apiKey: new ApiKeyRepository({ db, logger }),
     accessRule: new AccessRuleRepository({ db, logger }),
