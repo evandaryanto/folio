@@ -1,0 +1,51 @@
+description,type,amount,date,account
+Initial Capital,income,100000,2024-01-01,Main Bank Account
+Client Payment - TechCorp,income,15000,2024-01-22,Main Bank Account
+Rent Payment - January,expense,5000,2024-01-05,Main Bank Account
+Payroll - January,expense,35000,2024-01-31,Main Bank Account
+Client Payment - Various,income,45000,2024-02-05,Main Bank Account
+Equipment Purchase,expense,15000,2024-02-20,Main Bank Account
+Transfer to Savings,transfer,25000,2024-02-25,Savings Account
+SaaS Revenue - MegaCorp,income,9500,2024-01-03,Main Bank Account
+Office Supplies Purchase,expense,1200,2024-01-07,Petty Cash
+Client Payment - FinTech,income,35000,2024-01-26,Main Bank Account
+Insurance Premium,expense,3200,2024-01-10,Main Bank Account
+Internet & Phone Bill,expense,450,2024-01-12,Main Bank Account
+Client Payment - Wholesale,income,28000,2024-02-06,Main Bank Account
+Marketing Ad Spend,expense,8000,2024-02-10,Main Bank Account
+Payroll - February,expense,35000,2024-02-28,Main Bank Account
+Rent Payment - February,expense,5000,2024-02-01,Main Bank Account
+Client Payment - DataSync,income,6500,2024-02-13,Main Bank Account
+Software License Renewal,expense,2500,2024-02-15,Main Bank Account
+Client Payment - GreenTech,income,4500,2024-02-21,Main Bank Account
+Printer Repair,expense,350,2024-02-08,Petty Cash
+Transfer to Tax Reserve,transfer,8000,2024-02-28,Tax Reserve
+Enterprise Sale - Global Systems,income,62000,2024-03-02,Main Bank Account
+Rent Payment - March,expense,5000,2024-03-01,Main Bank Account
+Cloud Hosting - Q1,expense,3600,2024-03-05,Main Bank Account
+Client Payment - RetailMax,income,18000,2024-03-11,Main Bank Account
+Payroll - March,expense,36000,2024-03-31,Main Bank Account
+Legal Consultation Fee,expense,2000,2024-03-08,Main Bank Account
+Client Payment - BigBank,income,20000,2024-03-16,Main Bank Account
+Travel Reimbursement,expense,4500,2024-03-15,Main Bank Account
+Catering - Team Event,expense,890,2024-03-20,Petty Cash
+Transfer to Investment,transfer,35000,2024-03-25,Investment Account
+Government Contract Payment,income,41000,2024-03-04,Main Bank Account
+Electricity Bill - Q1,expense,2700,2024-03-10,Main Bank Account
+Office Furniture Purchase,expense,6500,2024-03-12,Operating Account
+Client Payment - HealthFirst,income,16000,2024-03-09,Main Bank Account
+Courier Services,expense,180,2024-03-14,Petty Cash
+Client Payment - InsureAll,income,13500,2024-03-23,Main Bank Account
+Conference Tickets,expense,1200,2024-03-18,Main Bank Account
+Client Payment - HardwareCo,income,30000,2024-03-26,Main Bank Account
+Parking Monthly Pass,expense,350,2024-03-01,Petty Cash
+Transfer to Emergency Fund,transfer,10000,2024-03-28,Emergency Fund
+Bonus Payout - Q1,expense,12000,2024-03-30,Payroll Account
+Client Payment - EuroTech,income,44000,2024-03-08,Main Bank Account
+Water Bill - Q1,expense,180,2024-03-10,Main Bank Account
+Security System Monthly,expense,250,2024-03-01,Main Bank Account
+Client Payment - Reseller,income,22000,2024-03-21,Main Bank Account
+Building Maintenance,expense,800,2024-03-15,Operating Account
+Client Payment - NewStartup,income,22000,2024-03-31,Main Bank Account
+Pest Control Service,expense,200,2024-03-22,Petty Cash
+Year-End Dividend Distribution,expense,50000,2024-03-31,Capital Reserve

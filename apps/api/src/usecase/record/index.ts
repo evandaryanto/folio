@@ -1,16 +1,19 @@
 import type { RecordRepository } from "@/repository/record";
 import type { CollectionRepository } from "@/repository/collection";
 import type { FieldRepository } from "@/repository/field";
+import type { TransactionWrapper } from "@/client/postgres/transaction";
 import type { Logger } from "@/utils/logger";
 import type { ResponseResult } from "@/utils/types/result";
 import type {
   CreateRecordRequest,
   UpdateRecordRequest,
+  BulkCreateRecordsRequest,
   GetRecordResponse,
   ListRecordsResponse,
   CreateRecordResponse,
   UpdateRecordResponse,
   DeleteRecordResponse,
+  BulkCreateRecordsResponse,
 } from "@folio/contract/record";
 import { ErrorCode } from "@/utils/errors/common";
 import { ok, err, createError } from "@/utils/types/result";
@@ -21,6 +24,7 @@ interface RecordUsecaseDeps {
   recordRepository: RecordRepository;
   collectionRepository: CollectionRepository;
   fieldRepository: FieldRepository;
+  txWrapper: TransactionWrapper;
   logger: Logger;
 }
 
@@ -41,17 +45,20 @@ export class RecordUsecase {
   private recordRepo: RecordRepository;
   private collectionRepo: CollectionRepository;
   private fieldRepo: FieldRepository;
+  private txWrapper: TransactionWrapper;
   private logger: Logger;
 
   constructor({
     recordRepository,
     collectionRepository,
     fieldRepository,
+    txWrapper,
     logger,
   }: RecordUsecaseDeps) {
     this.recordRepo = recordRepository;
     this.collectionRepo = collectionRepository;
     this.fieldRepo = fieldRepository;
+    this.txWrapper = txWrapper;
     this.logger = logger;
   }
 
@@ -332,6 +339,99 @@ export class RecordUsecase {
       });
       return err(
         createError(ErrorCode.InternalError, "Failed to delete record"),
+      );
+    }
+  }
+
+  async bulkCreateRecords(
+    workspaceId: string,
+    collectionId: string,
+    input: BulkCreateRecordsRequest,
+    createdBy: string,
+  ): Promise<ResponseResult<BulkCreateRecordsResponse>> {
+    try {
+      // Verify collection exists and belongs to workspace
+      const collectionResult = await this.collectionRepo.findById(collectionId);
+      if (!collectionResult.ok) {
+        return err(createError(ErrorCode.NotFound, "Collection not found"));
+      }
+      if (collectionResult.data.workspaceId !== workspaceId) {
+        return err(createError(ErrorCode.NotFound, "Collection not found"));
+      }
+
+      // Fetch fields for validation (schema-first approach)
+      const fieldsResult = await this.fieldRepo.findByCollection(collectionId);
+      if (!fieldsResult.ok) {
+        return err(fieldsResult.error);
+      }
+
+      const fields = fieldsResult.data;
+
+      if (fields.length === 0) {
+        return err(
+          createError(
+            ErrorCode.ValidationError,
+            "Collection has no fields defined. Please define a schema before creating records.",
+          ),
+        );
+      }
+
+      // Validate all rows, collecting errors
+      const rowErrors: string[] = [];
+      const validatedData: Record<string, unknown>[] = [];
+
+      for (let i = 0; i < input.records.length; i++) {
+        const validation = validateRecord(input.records[i].data, fields);
+        if (!validation.valid) {
+          const msgs = validation.errors
+            .map((e) => `${e.field}: ${e.message}`)
+            .join("; ");
+          rowErrors.push(`Row ${i + 1}: ${msgs}`);
+        } else {
+          validatedData.push(validation.data);
+        }
+      }
+
+      // If any row failed, reject entire batch
+      if (rowErrors.length > 0) {
+        return err(
+          createError(
+            ErrorCode.ValidationError,
+            `Validation failed for ${rowErrors.length} row(s)`,
+            { rowErrors },
+          ),
+        );
+      }
+
+      // Atomic insert via transaction
+      return await this.txWrapper(async (tx) => {
+        const createInputs = validatedData.map((data) => ({
+          workspaceId,
+          collectionId,
+          data,
+          createdBy,
+          updatedBy: createdBy,
+        }));
+
+        const result = await this.recordRepo.createMany(createInputs, tx);
+        if (!result.ok) {
+          return err(result.error);
+        }
+
+        return ok({
+          records: result.data.map(toRecordResponse),
+          totalCreated: result.data.length,
+        });
+      });
+    } catch (e) {
+      this.logger.error("Failed to bulk create records", {
+        error: e,
+        workspaceId,
+        collectionId,
+        count: input.records.length,
+      });
+      return err(
+        createError(ErrorCode.InternalError, "Failed to bulk create records"),
       );
     }
   }

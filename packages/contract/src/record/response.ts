@@ -44,3 +44,12 @@ export const deleteRecordResponseSchema = z.object({
   success: z.boolean(),
 });
 export type DeleteRecordResponse = z.infer<typeof deleteRecordResponseSchema>;
+
+// Bulk Create Records Response
+export const bulkCreateRecordsResponseSchema = z.object({
+  records: z.array(recordSchema),
+  totalCreated: z.number(),
+});
+export type BulkCreateRecordsResponse = z.infer<
+  typeof bulkCreateRecordsResponseSchema
+>;

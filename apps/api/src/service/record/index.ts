@@ -3,11 +3,13 @@ import type { ServiceResult } from "@/utils/types/result";
 import type {
   CreateRecordRequest,
   UpdateRecordRequest,
+  BulkCreateRecordsRequest,
   GetRecordResponse,
   ListRecordsResponse,
   CreateRecordResponse,
   UpdateRecordResponse,
   DeleteRecordResponse,
+  BulkCreateRecordsResponse,
 } from "@folio/contract/record";
 import {
   toServiceError,
@@ -140,6 +142,30 @@ export class RecordService {
       return toServiceSuccess(result.data);
     } catch (e) {
       return toServiceException(e, "Failed to delete record");
+    }
+  }
+
+  async bulkCreateRecords(
+    workspaceId: string,
+    collectionId: string,
+    input: BulkCreateRecordsRequest,
+    createdBy: string,
+  ): Promise<ServiceResult<BulkCreateRecordsResponse>> {
+    try {
+      const result = await this.recordUsecase.bulkCreateRecords(
+        workspaceId,
+        collectionId,
+        input,
+        createdBy,
+      );
+
+      if (!result.ok) {
+        return toServiceError(result.error, getStatusCode(result.error.code));
+      }
+
+      return toServiceSuccess(result.data);
+    } catch (e) {
+      return toServiceException(e, "Failed to bulk create records");
     }
   }
 }

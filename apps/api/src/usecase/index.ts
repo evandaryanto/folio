@@ -50,6 +50,7 @@ export function createUsecases({
       recordRepository: repositories.record,
       collectionRepository: repositories.collection,
       fieldRepository: repositories.field,
+      txWrapper,
       logger,
     }),
     api: new ApiUsecase({

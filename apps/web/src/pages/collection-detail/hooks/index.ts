@@ -10,4 +10,8 @@ export {
   useUpdateField,
   useDeleteField,
 } from "@/hooks/use-fields";
-export { useRecords, useCreateRecord } from "@/hooks/use-records";
+export {
+  useRecords,
+  useCreateRecord,
+  useBulkCreateRecords,
+} from "@/hooks/use-records";

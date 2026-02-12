@@ -7,7 +7,11 @@ import {
   useUpdateField,
   useDeleteField,
 } from "@/hooks/use-fields";
-import { useRecords, useCreateRecord } from "@/hooks/use-records";
+import {
+  useRecords,
+  useCreateRecord,
+  useBulkCreateRecords,
+} from "@/hooks/use-records";
 import type { FieldResponse } from "@folio/contract/field";
 
 export type CollectionTab = "records" | "schema" | "apis";
@@ -16,6 +20,7 @@ export function useCollectionPage() {
   const { slug } = useParams<{ slug: string }>();
   const [tab, setTab] = useState<CollectionTab>("records");
   const [showCreateRecord, setShowCreateRecord] = useState(false);
+  const [showCsvImport, setShowCsvImport] = useState(false);
   const [showAddField, setShowAddField] = useState(false);
   const [editingField, setEditingField] = useState<FieldResponse | null>(null);
 
@@ -33,6 +38,7 @@ export function useCollectionPage() {
 
   // Mutations
   const createRecord = useCreateRecord(collection?.id);
+  const bulkCreateRecords = useBulkCreateRecords(collection?.id);
   const createField = useCreateField(collection?.id);
   const updateField = useUpdateField(collection?.id);
   const deleteField = useDeleteField(collection?.id);
@@ -41,6 +47,13 @@ export function useCollectionPage() {
   const handleCreateRecord = async (data: Record<string, unknown>) => {
     await createRecord.mutateAsync(data);
     setShowCreateRecord(false);
+  };
+
+  const handleBulkImport = async (
+    records: Array<{ data: Record<string, unknown> }>,
+  ) => {
+    await bulkCreateRecords.mutateAsync(records);
+    setShowCsvImport(false);
   };
 
   const handleCreateField = async (
@@ -74,6 +87,8 @@ export function useCollectionPage() {
     // Modal states
     showCreateRecord,
     setShowCreateRecord,
+    showCsvImport,
+    setShowCsvImport,
     showAddField,
     setShowAddField,
     editingField,
@@ -90,12 +105,14 @@ export function useCollectionPage() {
 
     // Mutation states
     isCreatingRecord: createRecord.isPending,
+    isBulkImporting: bulkCreateRecords.isPending,
     isCreatingField: createField.isPending,
     isUpdatingField: updateField.isPending,
     isDeletingField: deleteField.isPending,
 
     // Handlers
     handleCreateRecord,
+    handleBulkImport,
     handleCreateField,
     handleUpdateField,
     handleDeleteField,

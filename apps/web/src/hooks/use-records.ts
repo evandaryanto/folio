@@ -32,12 +32,35 @@ export function useCreateRecord(collectionId: string | undefined) {
   return useMutation({
     mutationFn: async (data: Record<string, unknown>) => {
       if (!workspaceId || !collectionId) throw new Error("Missing params");
-      const response = await recordsService.create(
+      const response = await recordsService.create(workspaceId, collectionId, {
+        data,
+      });
+      return response.record;
+    },
+    onSuccess: () => {
+      if (workspaceId && collectionId) {
+        queryClient.invalidateQueries({
+          queryKey: recordKeys.list(workspaceId, collectionId),
+        });
+      }
+    },
+  });
+}
+
+export function useBulkCreateRecords(collectionId: string | undefined) {
+  const { user } = useApp();
+  const workspaceId = user?.workspaceId;
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (records: Array<{ data: Record<string, unknown> }>) => {
+      if (!workspaceId || !collectionId) throw new Error("Missing params");
+      const response = await recordsService.bulkCreate(
         workspaceId,
         collectionId,
-        { data },
+        { records },
       );
-      return response.record;
+      return response;
     },
     onSuccess: () => {
       if (workspaceId && collectionId) {

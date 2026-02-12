@@ -9,6 +9,7 @@ import {
   Lock,
   Users,
   ChevronRight,
+  Upload,
 } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { routes } from "@/lib/routes";
@@ -17,6 +18,7 @@ import {
   RecordsTable,
   FieldsList,
   CreateRecordModal,
+  CsvImportModal,
   AddFieldModal,
   EditFieldModal,
 } from "./components";
@@ -55,6 +57,8 @@ export default function CollectionDetailPage() {
     setTab,
     showCreateRecord,
     setShowCreateRecord,
+    showCsvImport,
+    setShowCsvImport,
     showAddField,
     setShowAddField,
     editingField,
@@ -67,9 +71,11 @@ export default function CollectionDetailPage() {
     records,
     recordsLoading,
     isCreatingRecord,
+    isBulkImporting,
     isCreatingField,
     isUpdatingField,
     handleCreateRecord,
+    handleBulkImport,
     handleCreateField,
     handleUpdateField,
   } = useCollectionPage();
@@ -119,10 +125,20 @@ export default function CollectionDetailPage() {
             Settings
           </Button>
           {tab === "records" && (
-            <Button size="sm" onClick={() => setShowCreateRecord(true)}>
-              <Plus className="w-3.5 h-3.5 mr-1.5" />
-              Add Record
-            </Button>
+            <>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowCsvImport(true)}
+              >
+                <Upload className="w-3.5 h-3.5 mr-1.5" />
+                Import CSV
+              </Button>
+              <Button size="sm" onClick={() => setShowCreateRecord(true)}>
+                <Plus className="w-3.5 h-3.5 mr-1.5" />
+                Add Record
+              </Button>
+            </>
           )}
           {tab === "schema" && (
             <Button size="sm" onClick={() => setShowAddField(true)}>
@@ -279,6 +295,15 @@ export default function CollectionDetailPage() {
         fields={fields ?? []}
         onCreate={handleCreateRecord}
         isLoading={isCreatingRecord}
+      />
+
+      {/* CSV Import Modal */}
+      <CsvImportModal
+        open={showCsvImport}
+        onOpenChange={setShowCsvImport}
+        fields={fields ?? []}
+        onImport={handleBulkImport}
+        isLoading={isBulkImporting}
       />
 
       {/* Add Field Modal */}

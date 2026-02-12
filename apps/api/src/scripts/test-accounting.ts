@@ -334,7 +334,17 @@ async function main() {
   // Accounts fields
   const accountFields = [
     { slug: "name", name: "Account Name", fieldType: FieldType.Text },
-    { slug: "type", name: "Account Type", fieldType: FieldType.Select },
+    {
+      slug: "type",
+      name: "Account Type",
+      fieldType: FieldType.Select,
+      options: {
+        choices: [
+          { value: "bank", label: "Bank" },
+          { value: "cash", label: "Cash" },
+        ],
+      },
+    },
     { slug: "currency", name: "Currency", fieldType: FieldType.Text },
     { slug: "balance", name: "Balance", fieldType: FieldType.Number },
   ];

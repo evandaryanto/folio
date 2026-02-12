@@ -9,11 +9,13 @@ import {
 import {
   createRecordRequestSchema,
   updateRecordRequestSchema,
+  bulkCreateRecordsRequestSchema,
   getRecordResponseSchema,
   listRecordsResponseSchema,
   createRecordResponseSchema,
   updateRecordResponseSchema,
   deleteRecordResponseSchema,
+  bulkCreateRecordsResponseSchema,
 } from "@folio/contract/record";
 
 interface RecordRoutesDeps {
@@ -172,6 +174,65 @@ export function createRecordRoutes({ recordService }: RecordRoutesDeps) {
     const { workspaceId, collectionId } = c.req.valid("param");
     const body = c.req.valid("json");
     const result = await recordService.createRecord(
+      workspaceId,
+      collectionId,
+      body,
+      userId,
+    );
+
+    if (!result.ok) {
+      return handleServiceError(c, result) as never;
+    }
+
+    return c.json(result.data, 201);
+  });
+
+  // Bulk Create Records
+  const bulkCreateRecordsRoute = createRoute({
+    method: "post",
+    path: "/bulk",
+    tags: ["Records"],
+    request: {
+      params: collectionParamsSchema,
+      body: {
+        content: {
+          "application/json": {
+            schema: bulkCreateRecordsRequestSchema,
+          },
+        },
+      },
+    },
+    responses: {
+      201: {
+        content: {
+          "application/json": {
+            schema: bulkCreateRecordsResponseSchema,
+          },
+        },
+        description: "Records created",
+      },
+      400: {
+        description: "Validation error",
+      },
+      401: {
+        description: "Unauthorized",
+      },
+      404: {
+        description: "Collection not found",
+      },
+    },
+  });
+
+  app.openapi(bulkCreateRecordsRoute, async (c) => {
+    const userId = c.get("userId");
+
+    if (!userId) {
+      return c.json({ error: "Unauthorized" }, 401) as never;
+    }
+
+    const { workspaceId, collectionId } = c.req.valid("param");
+    const body = c.req.valid("json");
+    const result = await recordService.bulkCreateRecords(
       workspaceId,
       collectionId,
       body,

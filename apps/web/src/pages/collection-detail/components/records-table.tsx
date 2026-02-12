@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/ui/data-table";
 import { Badge } from "@/components/ui/badge";
-import { formatCurrency } from "@/lib/utils";
+import { formatNumber } from "@/lib/utils";
 import type { RecordResponse } from "@folio/contract/record";
 import type { FieldResponse } from "@folio/contract/field";
 import { FieldType } from "@folio/contract/enums";
@@ -87,10 +87,7 @@ function CellValue({
   switch (fieldType) {
     case FieldType.Number: {
       const num = Number(value);
-      if (num >= 1000) {
-        return <code className="font-mono text-xs">{formatCurrency(num)}</code>;
-      }
-      return <code className="font-mono text-xs">{num.toLocaleString()}</code>;
+      return <code className="font-mono text-xs">{formatNumber(num)}</code>;
     }
 
     case FieldType.Boolean:

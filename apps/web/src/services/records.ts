@@ -5,10 +5,12 @@ import type {
   CreateRecordResponse,
   UpdateRecordResponse,
   DeleteRecordResponse,
+  BulkCreateRecordsResponse,
 } from "@folio/contract/record";
 import type {
   CreateRecordRequest,
   UpdateRecordRequest,
+  BulkCreateRecordsRequest,
 } from "@folio/contract/record";
 
 export const recordsService = {
@@ -55,5 +57,15 @@ export const recordsService = {
   delete: (workspaceId: string, collectionId: string, recordId: string) =>
     api.delete<DeleteRecordResponse>(
       `/workspaces/${workspaceId}/collections/${collectionId}/records/${recordId}`,
+    ),
+
+  bulkCreate: (
+    workspaceId: string,
+    collectionId: string,
+    data: BulkCreateRecordsRequest,
+  ) =>
+    api.post<BulkCreateRecordsResponse>(
+      `/workspaces/${workspaceId}/collections/${collectionId}/records/bulk`,
+      data,
     ),
 };

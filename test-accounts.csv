@@ -1,0 +1,21 @@
+name,type,currency,balance
+Main Bank Account,bank,USD,50000
+Petty Cash,cash,USD,1000
+Savings Account,bank,USD,25000
+Operating Account,bank,USD,18500
+Marketing Budget,bank,USD,12000
+Payroll Account,bank,USD,45000
+Emergency Fund,bank,USD,10000
+Office Cash Box,cash,USD,500
+Tax Reserve,bank,USD,8000
+Investment Account,bank,USD,35000
+Client Escrow,bank,USD,22000
+Travel Fund,cash,USD,2500
+R&D Budget,bank,USD,15000
+Vendor Payments,bank,USD,9500
+Employee Reimbursement,cash,USD,3000
+Capital Reserve,bank,USD,60000
+Insurance Fund,bank,USD,7500
+Utilities Account,bank,USD,4200
+Maintenance Fund,bank,USD,5800
+Bonus Pool,bank,USD,20000
